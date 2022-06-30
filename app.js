@@ -1,35 +1,60 @@
-const startBtn = document.getElementById('btn')
-const btnsDiv = document.querySelector('.buttons')
-const time = document.getElementById('time')
-let sec = 1
+// buttons
+const startBtn = document.getElementById('startBtn')
+const stopBtn = document.getElementById('stopBtn')
+const resetBtn = document.getElementById('resetBtn')
 
-function start(){
-    const stopBtn = document.createElement('button')
-    stopBtn.textContent = 'stop'
-    stopBtn.classList.add('btn')
-    stopBtn.classList.add('.stop')
-    btnsDiv.appendChild(stopBtn)
+// time items
+const hourNode = document.querySelector('.hours')
+const minutNode = document.querySelector('.minuts')
+const secondNode = document.querySelector('.seconds')
 
-    stopBtn.addEventListener('click', stop)
+// time vars
+let seconds = 0
+let minuts = 0
+let hours = 0
+let interval
 
-    function stop(){
-        const resetBtn = document.createElement('button')
-        resetBtn.textContent = 'reset'
-        resetBtn.classList.add('btn')
-        btnsDiv.appendChild(resetBtn)
 
-        function reset(){
-            time.textContent = "00:00:00"
-            btnsDiv.removeChild(stopBtn)
-            btnsDiv.removeChild(resetBtn)
-            resetBtn.removeEventListener('click', reset)
-            startBtn.addEventListener('click',  start)
-        }
+// events
+startBtn.addEventListener('click', () => {
+    clearInterval(interval)
+    interval = setInterval(startTimer, 1000)
+})
 
-        resetBtn.addEventListener('click', reset)    
-        stopBtn.removeEventListener('click', stop)
+stopBtn.addEventListener('click', () => {
+    clearInterval(interval)
+})
+
+resetBtn.addEventListener('click', () => {
+    clearInterval(interval)
+    seconds = 0
+    secondNode.textContent = '00'
+    minuts = 0
+    minutNode.textContent = '00'
+    hours = 0
+    hourNode.textContent = '00'
+})
+
+// init function
+function startTimer(){
+    seconds += 1
+    secondNode.textContent = `${checkForZero(seconds)}`
+    if(seconds > 59){
+        seconds = 0
+        secondNode.textContent = `00`
+        minuts += 1
+        minutNode.textContent = `${checkForZero(minuts)}`
     }
-
-    startBtn.removeEventListener('click', start)
+    if(minuts > 59){
+        minuts = 0
+        minutNode.textContent = '00'
+        hours += 1
+        hourNode.textContent = `${checkForZero(hours)}`
+    }
 }
-startBtn.addEventListener('click',  start)
+
+const checkForZero = (num) => {
+    if(num < 10){
+        return `0${num}`
+    } else {return num} 
+}
