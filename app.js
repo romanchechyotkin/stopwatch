@@ -17,15 +17,24 @@ let interval
 
 // events
 startBtn.addEventListener('click', () => {
+    stopBtn.classList.remove('pushed')
+    resetBtn.classList.remove('pushed')
+    startBtn.classList.add('pushed')
     clearInterval(interval)
     interval = setInterval(startTimer, 1000)
 })
 
 stopBtn.addEventListener('click', () => {
+    startBtn.classList.remove('pushed')
+    resetBtn.classList.remove('pushed')
+    stopBtn.classList.add('pushed')
     clearInterval(interval)
 })
 
 resetBtn.addEventListener('click', () => {
+    startBtn.classList.remove('pushed')
+    stopBtn.classList.remove('pushed')
+    resetBtn.classList.add('pushed')
     clearInterval(interval)
     seconds = 0
     secondNode.textContent = '00'
